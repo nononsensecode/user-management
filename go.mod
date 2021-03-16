@@ -1,4 +1,4 @@
-module nononsensecode.com/golang
+module nononsensecode.com/user-management
 
 go 1.16
 

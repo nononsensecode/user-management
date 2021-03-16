@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"nononsensecode.com/golang/cmd/arguments"
+	"nononsensecode.com/user-management/internal/app/user-management/arguments"
 )
 
 func main() {
