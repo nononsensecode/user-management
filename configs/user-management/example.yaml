@@ -1,0 +1,5 @@
+database:
+  vendor: sqlite3
+  url: /home/kaushik/test.db
+  user: kaushik
+  password: password

@@ -1,39 +1,25 @@
 package main
 
 import (
-	"flag"
-	"io/ioutil"
+	"errors"
+	"fmt"
+	"os"
 
-	"gopkg.in/yaml.v2"
+	"nononsensecode.com/golang/cmd/arguments"
 )
 
-
-type Config struct {
-	DatabaseUrl string `yaml:"dbUrl"`
-}
-
-
 func main() {
-	var config string
-	const (
-		defaultConfig = "./config.yaml"
-		defaultConfigDesc = "configuration file for the application"
-	)
-	flag.StringVar(&config, "config", defaultConfig, defaultConfigDesc)
-	flag.StringVar(&config, "c", defaultConfig, defaultConfigDesc)
-
-	flag.Parse()
-
-	configData := Config{}
-	
-	configFileData, err := ioutil.ReadFile(config)
+	config, err := arguments.GetConfiguration()
 	if err != nil {
-		panic(err)
+		fmt.Printf("%v\n", err)
+
+		var configErr *arguments.ConfigError
+		if errors.As(err, &configErr) {
+			configErr.Usage()
+		}
+
+		os.Exit(2)
 	}
 
-	err = yaml.Unmarshal(configFileData, &configData)
-	if err != nil {
-		panic(err)
-	}
-
+	fmt.Printf("%v\n", *config)
 }
