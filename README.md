@@ -2,4 +2,4 @@
 
 ## To Do
 
-- [] Create Makefile
+- [ ] Create Makefile
