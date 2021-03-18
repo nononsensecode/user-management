@@ -10,7 +10,7 @@ PROJECTNAME := $(shell basename "$(PWD)")
 # Go related variables
 
 GOBASE := $(shell pwd)
-GOPATH := $(GOBASE)
+# GOPATH := $(GOBASE)/cmd:$(GOBASE)/internal
 GOBIN := $(GOBASE)/bin
 GOFILES := $(wildcard *.go)
 
@@ -85,6 +85,7 @@ go-install:
 go-clean:
 	@echo "  >  Cleaning build cache"
 	@GOPATH=$(GOPATH) GOBIN=$(GOBIN) go clean
+	rm -rf $(GOBIN)
 
 go-vendor:
 	@echo "   > Creating vendor directory..."
