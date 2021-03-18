@@ -33,10 +33,6 @@ MAKEFLAGS += --silent
 ## install: Install missing dependencies. Runs `go get` internally. E.g: make install get=github.com/x/y
 install: go-get
 
-go-get:
-	@echo "   > Checking if there is any missing dependencies..."
-	@GOPATH=$(GOPATH) GOBIN=$(GOBIN) go get $(get)
-
 ## compile: Compile the binary
 compile:
 	# '@' don't show the command
@@ -64,6 +60,10 @@ go-build:
 go-generate:
 	@echo "   > Generating dependency files..."
 	@GOPATH=$(GOPATH) GOBIN=$(GOBIN) go generate $(generate)
+
+go-get:
+	@echo "   > Checking if there is any missing dependencies..."
+	@GOPATH=$(GOPATH) GOBIN=$(GOBIN) go get $(get)	
 
 go-install:
 	@GOPATH=$(GOPATH) GOBIN=$(GOBIN) go install $(GOFILES)

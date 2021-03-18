@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"nononsensecode.com/user-management/internal/app/user-management/arguments"
+	"nononsensecode.com/user-management/internal/app/user-mgmt/arguments"
 )
 
 func main() {
