@@ -10,7 +10,7 @@ PROJECTNAME := $(shell basename "$(PWD)")
 # Go related variables
 
 GOBASE := $(shell pwd)
-GOPATH := $(GOBASE)/vendor:$(GOBASE)
+GOPATH := $(GOBASE)
 GOBIN := $(GOBASE)/bin
 GOFILES := $(wildcard *.go)
 
@@ -20,6 +20,15 @@ GOTEST := $(GOCMD) test
 GOVET := $(GOCMD) vet
 GOFMT := $(GOCMD) fmt
 GOVENDOR := $(GOCMD) mod vendor
+
+# Project based variables
+
+CMD_BASE := $(GOBASE)/cmd
+
+# User management
+USER_MGMT_BASE := $(CMD_BASE)/user-mgmt
+USER_MGMT_MAIN := $(USER_MGMT_BASE)/main.go
+USER_MGMT_NAME := $(shell basename "$(USER_MGMT_BASE)")
 
 # Use linker flags to provide version/build settings also strip
 LDFLAGS := -ldflags "-X=main.Version=$(VERSION) -X=main.Build=$(BUILD) -s -w"
@@ -51,6 +60,11 @@ clean:
 	@-rm $(GOBIN)/$(PROJECTNAME) 2> /dev/null
 	@-$(MAKE) go-clean
 
+## usermgmt-build: Builds usermgmt command
+usermgmt-build:
+	@echo "   > Building usermgmt command..."
+	@GOPATH=$(GOPATH) GOBIN=$(GOBIN) go build -mod=mod $(LDFLAGS) -o $(GOBIN)/$(USER_MGMT_NAME) $(USER_MGMT_MAIN)
+
 go-compile: go-get go-build
 
 go-build:
@@ -71,6 +85,11 @@ go-install:
 go-clean:
 	@echo "  >  Cleaning build cache"
 	@GOPATH=$(GOPATH) GOBIN=$(GOBIN) go clean
+
+go-vendor:
+	@echo "   > Creating vendor directory..."
+	@GOPATH=$(GOPATH) go mod tidy
+	@GOPATH=$(GOPATH) go mod vendor
 
 .PHONY: help
 all: help
